@@ -49,6 +49,21 @@ vim.lsp.config("rust_analyzer", {
       procMacro = {
         enable = true,
       },
+      inlayHints = {
+        bindingModeHints = { enable = false },
+        chainingHints = { enable = true },
+        closingBraceHints = { enable = true, minLines = 25 },
+        closureReturnTypeHints = { enable = "always" },
+        lifetimeElisionHints = { enable = "always", useParameterNames = true },
+        parameterHints = { enable = true },
+        reborrowHints = { enable = "always" },
+        renderColons = true,
+        typeHints = {
+          enable = true,
+          hideClosureInitialization = false,
+          hideNamedConstructor = false,
+        },
+      },
     },
   },
 })
@@ -91,6 +106,16 @@ vim.lsp.enable(servers)
 vim.lsp.config("ruff", {
   on_attach = function(client, _)
     client.server_capabilities.hoverProvider = false
+  end,
+})
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("LspInlayHints", { clear = true }),
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client:supports_method("textDocument/inlayHint", { bufnr = args.buf }) then
+      vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+    end
   end,
 })
 
