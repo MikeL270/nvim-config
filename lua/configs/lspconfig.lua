@@ -31,10 +31,23 @@ vim.lsp.config("clangd", {
     "clangd",
     "--background-index",
     "--clang-tidy",
-    "--query-driver=/usr/bin/clang++,/usr/local/bin/clang++,/usr/bin/g++,/usr/bin/*-g++",
     "--header-insertion=never",
+    "--completion-style=detailed",
+    "--function-arg-placeholders",
+    "--query-driver=/usr/bin/*clang*,/usr/bin/*g++*,/usr/bin/c++",
   },
   filetypes = { "c", "cpp", "objc", "objcpp" },
+  settings = {
+    clangd = {
+      InlayHints = {
+        Designators = true,
+        Enabled = true,
+        ParameterNames = true,
+        DeducedTypes = true,
+      },
+      fallbackFlags = { "-std=c++20" },
+    },
+  },
 })
 
 vim.lsp.config("rust_analyzer", {
@@ -68,8 +81,9 @@ vim.lsp.config("rust_analyzer", {
   },
 })
 
+local qmlls_bin = vim.fn.executable "qmlls" == 1 and "qmlls" or "/usr/lib/qt6/bin/qmlls"
 vim.lsp.config("qmlls", {
-  cmd = { "qmlls" },
+  cmd = { qmlls_bin },
   filetypes = { "qml", "qmljs" },
 })
 

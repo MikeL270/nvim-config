@@ -25,6 +25,9 @@ local options = {
       command = vim.fn.executable "ruff" == 1 and "ruff" or vim.fn.expand "~/.local/bin/ruff",
       require_cwd = false,
     },
+    qmlformat = {
+      command = vim.fn.executable "qmlformat" == 1 and "qmlformat" or "/usr/lib/qt6/bin/qmlformat",
+    },
   },
 
   format_on_save = {
