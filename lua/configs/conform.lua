@@ -16,20 +16,9 @@ local options = {
     qmljs = { "qmlformat" },
   },
 
-  formatters = {
-    ruff_format = {
-      command = vim.fn.executable "ruff" == 1 and "ruff" or vim.fn.expand "~/.local/bin/ruff",
-      require_cwd = false,
-    },
-    ruff_organize_imports = {
-      command = vim.fn.executable "ruff" == 1 and "ruff" or vim.fn.expand "~/.local/bin/ruff",
-      require_cwd = false,
-    },
-  },
-
   format_on_save = {
-    timeout_ms = 50000,
-    lsp_fallback = true,
+    timeout_ms = 3000,
+    lsp_format = "fallback",
   },
 }
 
