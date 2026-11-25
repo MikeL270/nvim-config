@@ -1,4 +1,5 @@
 require("nvchad.configs.lspconfig").defaults()
+require("lspconfig")
 
 local mason_path = vim.fn.stdpath "data" .. "/mason/packages/vue-language-server"
 local vue_plugin_path = mason_path .. "/node_modules/@vue/language-server"
@@ -95,10 +96,14 @@ vim.lsp.config("asciidoc_lsp", {
 
 vim.lsp.config("ty", {
   settings = {
-    ty = {
-      -- Add custom ty settings here if needed
-    },
+    ty = {},
   },
+})
+
+vim.lsp.config("ruff", {
+  on_attach = function(client, _)
+    client.server_capabilities.hoverProvider = false
+  end,
 })
 
 local servers = {
@@ -116,12 +121,6 @@ local servers = {
   "asciidoc_lsp",
 }
 vim.lsp.enable(servers)
-
-vim.lsp.config("ruff", {
-  on_attach = function(client, _)
-    client.server_capabilities.hoverProvider = false
-  end,
-})
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("LspInlayHints", { clear = true }),
